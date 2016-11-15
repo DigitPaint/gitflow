@@ -51,8 +51,9 @@ As new features are being developed on develop you probably want to have those c
 3. Deploy release branch to test/staging servers
 4. Fix any issues that have been found during testing
 5. Merge non-fast-forward into master
-6. Merge master back into develop
-7. Deploy master to production
+6. Tag the release on master
+7. Merge master back into develop
+8. Deploy master to production
 
 ## Emergencies
 Whenever problems arise in existing releases.
@@ -64,6 +65,7 @@ Whenever problems arise in existing releases.
     2. Code has been reviewed?
 4. Prepare for release (update changelog, etc.)
 5. Merge non-fast-forward into master 
-6. Delete hotfix branch
-7. Merge master back into develop
-7. Deploy master to production
+6. Tag the release on master
+7. Delete hotfix branch
+8. Merge master back into develop
+9. Deploy master to production
