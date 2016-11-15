@@ -2,8 +2,11 @@
 <html>
   <head>
     <title><%= document.title %></title>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/site.css">
   </head>
   <body>
-    <%= yield %>
+    <div class="markdown-body">
+      <%= yield %>
+    </div>
   </body>
 </html>
