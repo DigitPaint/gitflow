@@ -62,7 +62,8 @@ Whenever problems arise in existing releases.
 3. Create a pull request
     1. Build passes?
     2. Code has been reviewed?
-4. Merge non-fast-forward into master 
-5. Delete hotfix branch
-6. Merge master back into develop
+4. Prepare for release (update changelog, etc.)
+5. Merge non-fast-forward into master 
+6. Delete hotfix branch
+7. Merge master back into develop
 7. Deploy master to production
