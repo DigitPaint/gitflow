@@ -4,3 +4,6 @@ layout: "default"
 ---
 
 # Go with the GitFlow
+
+1. [Branches](/branches.html)
+2. [Workflow](/workflow.html)
