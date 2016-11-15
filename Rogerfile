@@ -1,0 +1,9 @@
+
+# Use "web" instead of HTML
+roger.project.html_path = roger.project.path + "web"
+
+roger.serve do |s|
+end
+
+roger.release do |s|
+end
