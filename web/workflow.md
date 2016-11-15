@@ -66,7 +66,7 @@ Whenever problems arise in existing releases.
     2. Code has been reviewed?
 4. Prepare for release (update changelog, etc.)
 5. Merge non-fast-forward into master 
-6. Tag the release on master
-7. Delete hotfix branch
+6. Delete hotfix branch
+7. Tag the release on master
 8. Merge master back into develop
 9. Deploy master to production
