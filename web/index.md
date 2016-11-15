@@ -7,3 +7,4 @@ layout: "default"
 
 1. [Branches](/branches.html)
 2. [Workflow](/workflow.html)
+3. [History, committing & pull requests](/history.html)
