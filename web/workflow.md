@@ -24,7 +24,7 @@ layout: "default"
     1. Build passes?
     2. Code has been reviewed?
 11. Rebase on develop if needed
-12. Merge non-fast forward into develop
+12. Merge non-fast-forward into develop
 13. Delete feature branch
 
 ## Large-scale feature, overhaul or change
@@ -32,7 +32,7 @@ layout: "default"
 1. Create a new integration branch from develop
 2. Create feature branches on the integration branch and apply the workflow as you would on develop except that you merge into the integration branch
 3. Rebase the integration branch on develop
-4. Merge non-fast forward into develop
+4. Merge non-fast-forward into develop
 5. Delete integration branch
 
 ### Keeping the integration branch in sync with develop

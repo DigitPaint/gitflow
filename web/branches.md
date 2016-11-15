@@ -24,7 +24,7 @@ The rules about master:
     + Develop
     + Release branches
     + Hotfix branches
-- Merges are always non-fastforward
+- Merges are always non-fast-forward
 - Must be merged back into develop whenever something is merged into master
 
 ## Develop
@@ -39,7 +39,7 @@ The rules about develop:
     + Feature branches
     + Integration branches
     + Master
-- Merges are always non-fastforward
+- Merges are always non-fast-forward
 
 ## Feature branches
 
@@ -75,7 +75,7 @@ The rules about integration branches:
     + Feature branches
 - Can only be merged into:
     + Develop
-- Merges are always non-fastforward
+- Merges are always non-fast-forward
 
 ## Release branches
 
@@ -89,7 +89,7 @@ The rules about release branches:
     + Develop
 - Can only be merged into:
     + Master
-- Merges are always non-fastforward
+- Merges are always non-fast-forward
  
 ## Hotfix branches
 
