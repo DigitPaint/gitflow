@@ -44,3 +44,11 @@ Some rules about WIP commits:
 
 - They should never-ever appear in master, develop
 - They must be split into proper atomic commits before merging a release branch, feature branch or hotfix branch.
+
+# Pull requests
+All feature branches or hotfixes should be pull requests. A pull request makes it easy to run builds against the changes and review code. It also provides an easy way to merge a feature branch.
+
+## WIP pull requests
+Sometimes you want a colleague to look at your code even though it's still work in progress. In that case you can prefix the subject of the pull request with `[WIP]` or `WIP: `. That signifies that the pull request is still work in progress and should not be merged.
+
+Once you are done with the PR, you must remove the prefix from the subject. 
