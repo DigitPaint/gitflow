@@ -1,0 +1,85 @@
+<canvas id="gg-history"></canvas>
+
+<script>
+(function(){
+  var template = new GitGraph.Template({
+    colors: [ "#979797", "#008fb5", "#ff0000", "#f1c109", "#0a0"  ],
+    branch: {
+      lineWidth: 10,
+      spacingX: 50,
+      showLabel: true
+    },
+    commit: {
+      spacingY: -80,
+      dot: {
+        size: 14
+      },
+      message: {
+        displayAuthor: false,
+        displayBranch: false,
+        displayHash: false,
+        font: "normal 14pt Arial"
+      },
+      tooltipHTMLFormatter: function ( commit ) {
+        return commit.message;
+      }
+    }
+  })
+
+  var graph = new GitGraph({
+    "template" : template,
+    "elementId" : "gg-history",
+    "orientation" : "vertical"
+  });
+
+
+  var columns = {
+    master: 0,
+    release: 1,
+    hotfix: 2,
+    develop: 3,
+    feature: 4
+  }
+
+  var developConf = {name: "develop", column: columns.develop};
+
+
+  var develop = graph.branch(developConf);
+
+  develop.commit("Init project");
+
+  var master = develop.branch({name: "master", column: columns.master});
+
+
+  var featureSetup = develop.branch({name: "feature-setup", column: columns.feature});
+  featureSetup.commit("Setup minimal config");
+  featureSetup.commit("Add Github Markdown styles");
+  featureSetup.merge(develop);
+
+  var featureBasics = develop.branch({name: "feature-gitflow-basics", column: columns.feature});
+  featureBasics.commit("Describe the different branches");
+  featureBasics.commit("Describe common scenarios");
+  featureBasics.merge(develop);
+
+  var r100 = develop.branch({name: "release-1.0.0", column: columns.release});
+  r100.commit("Prepare for release");
+  r100.merge(master, {"tag": "v1.0.0"});
+
+  master.merge(develop, {dotSize: 1, messageDisplay: false});
+
+  develop.commit("Add prepare for release step in hotfix workflow");
+
+  var featureWip = develop.branch({name: "feature-git-history", column: columns.feature});
+  featureWip.commit("WIP");
+
+  var hotfix = master.branch({name: "hotfix-spelling", column: columns.hotfix});
+  hotfix.commit("Fix spelling");
+  hotfix.commit("Prepare for release");
+  hotfix.merge(master, {"tag": "v1.0.1"});
+
+  master.merge(develop);
+
+
+
+})();
+</script>
