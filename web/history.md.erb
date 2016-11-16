@@ -13,3 +13,34 @@ There is nothing more frustrating than looking at a commit from 6 months ago  th
 
 ## Example of a good history
 <%= partial "graphs/history" %>
+
+# Commits
+Two things are important when creating a commit:
+
+1. The changes it contains must be atomic
+2. The message must be exact and concise
+
+## Atomicity
+All changes in a single commit should be related. The commit "Explain when to tag versions" should contain only that explanation, not an unrelated typo you fixed  somewhere else.
+
+Every commit should leave the application in a working state.
+
+## Good commit messages
+- First line is a subject and is 72 characters long
+- Describes what the change does
+- If you have refactored or performed an otherwise complex change, add an extended body below the subject (separated by an empty line).
+
+An example:
+```
+Refactor homepage
+
+This change makes sure all content is loaded before the images.
+```
+
+## WIP commits
+It's not always clear up front what the atomic parts of a change are. Also you might just want to commit everything and push it to the server at the end of your workday. That's where the WIP (=Work in Progress) commit comes in.
+
+Some rules about WIP commits:
+
+- They should never-ever appear in master, develop
+- They must be split into proper atomic commits before merging a release branch, feature branch or hotfix branch.
