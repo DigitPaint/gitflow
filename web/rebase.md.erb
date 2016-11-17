@@ -1,0 +1,200 @@
+---
+title: "Go with the GitFlow"
+layout: "default"
+---
+
+# Rebasing (a.k.a. fixing the history)
+Rebasing is the action of moving a line of comits to a different parent. GIT does this by taking your commits and applying them on top of the specified commit. This means GIT will create new commits. This is a handy feature as it allows us to change or edit these commits before they're made. It is also a dangerous feature as it means your history is going to change.
+
+It basically looks like this: The gray branch is rebased on top of the blue one.
+
+<%= partial "graphs/rebase" %>
+
+## Keep your features up to date with develop
+There are two reasons to rebase your feature branch on develop:
+
+1. you want to have a certain feature or bugfix in your feature branch as well.
+2. you want to merge your feature but merging with develop will result in a mergeconflict.
+
+As 2. should never happen (it is your duty as creator of a feature to make your feature mergeable) you will need to incorporate the changes from develop. You could merge of course but that does not bode well for having a clean history. So you'll have to rebase. Some things to keep in mind:
+
+- You cannot rebase if you have uncommited changes. An easy way out is to create a WIP commit with everything you have not yet committed. Or you can `git stash` all changes and apply them later on.
+- You will rewrite the history of your feature branch so you'll have to force push to remote `git push -f`.
+- If you work with multiple people on the same branch make sure you notify them and make sure they have pushed all changes before rebasing as they'll have to reset the branch later on.
+
+```
+git checkout YOUR_BRANCH_NAME
+git rebase develop
+```
+
+It is of course possible that this will result in conflict.
+
+## Dealing with conflicts during rebase
+
+As Git is applying the patches one-by-one on a different base there is the possibility of a conflicting change. There is no need to panic as this is pretty much the same as a merge conflict. Once a conflict arises Git will stop rebasing just before it would have made the commit. This means everything that can be applied is already staged in the index. The only thing you have to do is resolve the conflict stage the conflicted file in the index and do a `git rebase --continue`.
+
+Some steps to clarify this:
+
+1. `git rebase develop`
+2. There is a conflict:
+    ```
+    First, rewinding head to replay your work on top of it...
+    Applying: Add Javasripts Hello World
+    Using index info to reconstruct a base tree...
+    M   readme.md
+    Falling back to patching base and 3-way merge...
+    Auto-merging readme.md
+    CONFLICT (content): Merge conflict in readme.md
+    error: Failed to merge in the changes.
+    Patch failed at 0001 Add Javasripts Hello World
+    The copy of the patch that failed is found in: .git/rebase-apply/patch
+
+    When you have resolved this problem, run "git rebase --continue".
+    If you prefer to skip this patch, run "git rebase --skip" instead.
+    To check out the original branch and stop rebasing, run "git rebase --abort".
+    ```
+3. Running `git status` is always a good idea to see what exactly the current state is:
+    ```
+    rebase in progress; onto 714a9d8
+    You are currently rebasing branch 'feature-hello-node' on '714a9d8'.
+      (fix conflicts and then run "git rebase --continue")
+      (use "git rebase --skip" to skip this patch)
+      (use "git rebase --abort" to check out the original branch)
+
+    Changes to be committed:
+      (use "git reset HEAD <file>..." to unstage)
+
+        new file:   hello.js
+
+    Unmerged paths:
+      (use "git reset HEAD <file>..." to unstage)
+      (use "git add <file>..." to mark resolution)
+
+        both modified:   readme.md
+    ```
+4. As you can see the problem resides in `readme.md`. Fixing a rebase conflict is the same as fixing a merge conflict.
+5. Once you have resolved the conflict you have to stage the changes with `git add readme.md`
+6. Finally you resume the rebase by running `git rebase --continue`
+
+Keep in mind that a rebase can result into multiple conflicts. 
+
+### Skipping a patch
+Most of the time Git is quite good at identifying that a change has already happened. Sometimes it fails. In that case you probably don't want to handle fixing conflicts by hand but just skip the patch that will be applied by running `git rebase --skip`
+
+### Aborting a rebase
+Rebasing can be a tricky affair and you may or may not have selected the wrong branch to rebase (it happens). Luckily you can always abort a rebase by running `git rebase --abort`
+
+## Pushing and pulling rebased branches
+As you have rewritten the history of a branch (all commits have been re-created with new SHA1s) you cannot just push the branch as the commits in the remote branch do not match any parents in your local branch. That's why you have to forcefully overwrite the commits on remote by running:
+
+```
+git push -f 
+```
+
+If you're just working on a brach on your own there is no problem. However if you work on the same branch with multiple people and they try to pull, stuff get's haywired as Git will just try to merge the two branches which will result into having the commits in your branch twice with an ugly merge commit between them.
+
+**It is very important that you make sure you have all changes in a branch before rebasing!** Merging rebased branches can be quite a headache.
+
+So how do we pull after someone force pushed? We have two options:
+
+1. We're certain that we don't have any local commits that were not on remote so we can just reset our branch to what's on origin by doing:
+    ```
+    git reset --hard origin/YOUR_BRANCH_NAME
+    ```
+2. We have local changes and want to apply them to the branch. We'll pull and rebase the remote changes by running:
+    ```
+    git pull --rebase
+    ```
+Any conflicts that arise during a rebase can be dealt with as you would with a normal rebase.
+
+
+## Prepare your feature branch for a PR (a.k.a Interactive rebasing)
+As we have previously stated a rebase is just like applying all commits manually again, you can also rebase a history unto itself. In itself that may sound a bit silly but Git has a feature called interactive rebasing which allows us to change/reorder and remove commits before they're being applied anew.
+
+Let's consider the following history:
+
+<%= partial "graphs/rebase-i" %>
+
+We want to fix some things before we present them as a PR to our fellow developers:
+
+- `ddd7072` need a different commit message (as it's actually a node example)
+- `fc0f4e2` needs to be combined with `ddd7072` (no fix commits in our feature branch)
+- `55e3cc8` needs to be split and combined with `ddd7072` and `aae5562` (much nicer to have that combined with the actual change)
+- `ed536e4` needs to be split into two commits (as we have a typescript and coffeescript Hello World in this commit)
+
+So we'd rather have it look more like this before we merge:
+
+<%= partial "graphs/rebase-i-done" %>
+
+### Starting the rebase process
+
+1. Get the SHA1 of the commit before the first commit you want to change. (Why? because we're going to rebase the current history onto that SHA1)
+2.  Start the interactive rebase:
+    ```
+    git rebase -i SHA1
+    ```
+3. Git will open your editor and show you something like this:
+    ```
+    pick ddd7072 Add JavaScript Hello World
+    pick aae5562 Add HTML + JavaScript Hello World
+    pick fc0f4e3 Fix node path in node.js hello world
+    pick 55e3cc8 Update readme
+    pick ed536e4 WIP
+
+    # Rebase ebe6682..ed536e4 onto ebe6682 (5 command(s))
+    #
+    # Commands:
+    # p, pick = use commit
+    # r, reword = use commit, but edit the commit message
+    # e, edit = use commit, but stop for amending
+    # s, squash = use commit, but meld into previous commit
+    # f, fixup = like "squash", but discard this commit's log message
+    # x, exec = run command (the rest of the line) using shell
+    # d, drop = remove commit
+    #
+    # These lines can be re-ordered; they are executed from top to bottom.
+    #
+    # If you remove a line here THAT COMMIT WILL BE LOST.
+    #
+    # However, if you remove everything, the rebase will be aborted.
+    #
+    # Note that empty commits are commented out
+    ```
+4. Now we'll have to tell git what to do with each commit. Luckily Git gives us some hints in the commented part of the screen. So after considering that we'll want to do the following:
+    ```
+    reword ddd7072 Add JavaScript Hello World
+    fixup fc0f4e3 Fix node path in node.js hello world
+    pick aae5562 Add HTML + JavaScript Hello World
+    edit 55e3cc8 Update readme
+    edit ed536e4 WIP
+    ```
+5. Save this file and exit your editor and Git will start the rebase.
+
+### Changing commit messages
+Just add 'reword' before the commit and during the rebase Git will open an editor window where you can change the message. Save the message and close the editor. Git wil automatically continue with the rebase
+
+### Combining commits
+You can combine commits either with 'squash' or 'fixup'. The difference is that 'squash' will combine the commit messages, 'fixup' will ignore the message of the 'fixup' commit.
+
+Fixup's and squashes can result in merge conflicts. You can fix those, stage the changes and carry on with `git rebase --continue`
+
+### Splitting commits
+Splitting commits is done by ammending an existing commit and creating new commits. When you have specified you want to 'edit' a commit. Git will apply the commit but then pause the rebase process. This allows you to ammend the commit and create new ones.
+
+1. First we're going to undo the commit so we can change the index
+    ```
+    git reset --soft "HEAD^"
+    ```
+2. Unstage the parts we want to put into separate commits (If it concerns lines this is easiest done with a GUI like SourceTree)
+3. Once we have the stage ready for the first commit we'll commit it.
+4. We create new commits as usual for the other unstaged changes
+5. Once we're done adding commits we'll have to continue rebasing:
+    ```
+    git rebase --continue
+    ```
+
+You might notice that sometimes you have to rebase multiple times for instance if you need to split and then fixup those splitted commits into other commits.
+
+### Re-ordering commits
+Re-ordering commits can be done by moving the lines around in your editor. This again can result into a merge conflict. But by now you should know how to handle those.
+

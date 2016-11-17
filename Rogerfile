@@ -1,3 +1,4 @@
+require File.dirname(__FILE__) + "/lib/gfm_template"
 
 # Use "web" instead of HTML
 roger.project.html_path = roger.project.path + "web"
