@@ -1,0 +1,40 @@
+<canvas id="gg-rebase-i"></canvas>
+
+<script>
+(function(){
+  var template = new GitGraph.Template({
+    colors: [ "#008fb5", "#000"  ],
+    branch: {
+      lineWidth: 8,
+      spacingX: 50,
+    },
+    commit: {
+      spacingY: -50,
+      dot: {
+        size: 10
+      },
+      message: {
+        displayAuthor: false,
+        displayBranch: false,
+        displayHash: true,
+        font: "normal 12pt Arial"
+      }
+    }
+  })
+
+  var graph = new GitGraph({
+    "template" : template,
+    "elementId" : "gg-rebase-i",
+    "orientation" : "vertical"
+  });
+
+  var develop = graph.branch({name: "develop", column: 0});
+
+  develop.commit({ message: "Add javascript hello world", sha1: "ddd7072" });
+  develop.commit({ message: "Add html + javascript hello world", sha1: "aae5562" });
+  develop.commit({ message: "Fix node path in node.js example", sha1: "fc0f4e3" });
+  develop.commit({ message: "Update readme", sha1: "55e3cc8" });
+  develop.commit({ message: "WIP", sha1: "ed536e4" });
+
+})();
+</script>
