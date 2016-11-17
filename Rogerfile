@@ -6,5 +6,8 @@ roger.project.html_path = roger.project.path + "web"
 roger.serve do |s|
 end
 
-roger.release do |s|
+roger.release(source_path: roger.project.html_path) do |r|
+  r.use :mockup, match: ["**/*.{html,md,html.erb,md.erb}"]
+  puts r.build_path
+  r.finalize :git_branch, :branch => "gh-pages", :remote => "git@github.com:digitpaint/gitflow.git"
 end
