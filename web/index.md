@@ -23,3 +23,5 @@ The exercises repository you will use is a collection of 'Hello World' scripts i
 2. [Releasing](/exercises/releases.html)
 3. [Hotfixing](/exercises/hotfixes.html)
 1. [Pull requests](/exercises/pull-request.html)
+2. [Rebasing](/exercises/rebase.html)
+
