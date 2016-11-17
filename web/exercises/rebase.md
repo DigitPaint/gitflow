@@ -35,7 +35,7 @@ In this exercise you'll fix a typo in the existing 'Hello World' in Rust.
 
 ## Prepare larger PR for merging
 
-In this exercise we'll considerately rewrite the history of our PR to have a completely clean history.
+In this exercise we'll considerately rewrite the history of our `feature-hello-js` feature branch to have a completely clean history.
 
 We'll want to end up with this as history:
 
