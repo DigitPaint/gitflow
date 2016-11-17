@@ -1,0 +1,49 @@
+<canvas id="gg-rebase"></canvas>
+
+<script>
+(function(){
+  var template = new GitGraph.Template({
+    colors: [ "#bbb", "#008fb5", "#000"  ],
+    branch: {
+      lineWidth: 10,
+      spacingX: 50,
+    },
+    commit: {
+      spacingY: -80,
+      dot: {
+        size: 14
+      },
+      message: {
+        displayAuthor: false,
+        displayBranch: false,
+        displayHash: false,
+        font: "normal 14pt Arial"
+      },
+      tooltipHTMLFormatter: function ( commit ) {
+        return "";
+      }
+    }
+  })
+
+  var graph = new GitGraph({
+    "template" : template,
+    "elementId" : "gg-rebase",
+    "orientation" : "horizontal"
+  });
+
+
+
+  var develop = graph.branch({name: "develop", column: 1});
+  develop.commit()
+
+  var feature = develop.branch({name: "feature", column: 0});
+  feature.commit().commit();
+
+  develop.commit().commit();
+
+  feature = develop.branch({name: "feature", column: 2});
+  feature.commit().commit();
+
+
+})();
+</script>

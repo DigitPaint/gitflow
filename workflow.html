@@ -1,0 +1,104 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Go with the GitFlow</title>
+    <link rel="stylesheet" type="text/css" href="stylesheets/site.css" />
+    <script src="https://unpkg.com/gitgraph.js@1.4.0/build/gitgraph.min.js"></script>
+  </head>
+  <body>
+    <div class="markdown-body">
+      <h1>Workflow</h1>
+
+<p>... or how to get things done.</p>
+
+<h2>New feature or bug</h2>
+
+<ol>
+<li>Create a new feature branch from develop</li>
+<li>Build the feature or fix the bug and create beautiful commits</li>
+<li>Prepare for a pull request:
+
+<ol>
+<li>Clean up your branches history</li>
+<li>Rebase your branch on develop</li>
+<li>Push to remote</li>
+</ol></li>
+<li>Create pull request
+
+<ol>
+<li>Build passes?</li>
+<li>Code has been reviewed?</li>
+</ol></li>
+<li>Fix any issues that arise from build/review without creating fix commits</li>
+<li>Force push to remote</li>
+<li>Update pull request
+
+<ol>
+<li>Build passes?</li>
+<li>Code has been reviewed?</li>
+</ol></li>
+<li>Rebase on develop if needed</li>
+<li>Merge non-fast-forward into develop</li>
+<li>Delete feature branch</li>
+</ol>
+
+<h2>Large-scale feature, overhaul or change</h2>
+
+<ol>
+<li>Create a new integration branch from develop</li>
+<li>Create feature branches on the integration branch and apply the workflow as you would on develop except that you merge into the integration branch</li>
+<li>Rebase the integration branch on develop</li>
+<li>Merge non-fast-forward into develop</li>
+<li>Delete integration branch</li>
+</ol>
+
+<h3>Keeping the integration branch in sync with develop</h3>
+
+<p>As new features are being developed on develop you probably want to have those changes in the integration branch as well. </p>
+
+<ol>
+<li>Warn all people working with/on the integration branch that you&#39;re going to update it.</li>
+<li>Rebase the integration branch on develop</li>
+<li>Force push the integration branch</li>
+<li>Tell your colleagues to <code>git checkout NAME_OF_INTEGRATION_BRANCH</code>, <code>git fetch</code> and <code>git reset --hard origin/NAME_OF_INTEGRATION_BRANCH</code> <strong>Warning</strong> They&#39;ll lose any work that has been directly commited on the integration branch and was not pushed before your rebase. Hence the warning beforehand.</li>
+<li>Your colleagues can now rebase their feature branches and are all up to date.</li>
+</ol>
+
+<h2>Releasing</h2>
+
+<ol>
+<li>Create a new release branch from develop. By doing this you have frozen the features in that release branch.</li>
+<li>Prepare for release (update changelog, etc.)</li>
+<li>Deploy release branch to test/staging servers</li>
+<li>Fix any issues that have been found during testing</li>
+<li>Merge non-fast-forward into master</li>
+<li>Delete release branch</li>
+<li>Tag the release on master</li>
+<li>Merge master back into develop</li>
+<li>Deploy master to production</li>
+</ol>
+
+<h2>Emergencies</h2>
+
+<p>Whenever problems arise in existing releases.</p>
+
+<ol>
+<li>Create a hotfix branch from master</li>
+<li>Build the fix</li>
+<li>Create a pull request
+
+<ol>
+<li>Build passes?</li>
+<li>Code has been reviewed?</li>
+</ol></li>
+<li>Prepare for release (update changelog, etc.)</li>
+<li>Merge non-fast-forward into master </li>
+<li>Delete hotfix branch</li>
+<li>Tag the release on master</li>
+<li>Merge master back into develop</li>
+<li>Deploy master to production</li>
+</ol>
+
+    </div>
+  </body>
+</html>

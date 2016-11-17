@@ -1,0 +1,160 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Go with the GitFlow</title>
+    <link rel="stylesheet" type="text/css" href="stylesheets/site.css" />
+    <script src="https://unpkg.com/gitgraph.js@1.4.0/build/gitgraph.min.js"></script>
+  </head>
+  <body>
+    <div class="markdown-body">
+      <h1>The branches</h1>
+
+<ol>
+<li>Master</li>
+<li>Develop</li>
+<li>Feature branches (feature-x, bug-x)</li>
+<li>Release branches (release-x)</li>
+<li>Hotfix branches (hotfix-x)</li>
+<li>Integration branches (integration-X)</li>
+</ol>
+
+<h2>Master</h2>
+
+<p>Master is your &quot;holy&quot; branch and should always be exactly what you have in production.</p>
+
+<p>The rules about master:</p>
+
+<ul>
+<li>No force pushing</li>
+<li>No direct commits</li>
+<li>Accepts only merges from:
+
+<ul>
+<li>Develop</li>
+<li>Release branches</li>
+<li>Hotfix branches</li>
+</ul></li>
+<li>Merges are always non-fast-forward</li>
+<li>Must be merged back into develop whenever something is merged into master</li>
+</ul>
+
+<h2>Develop</h2>
+
+<p>Develop is where future versions with fixes and changes of your application reside. It should always be in a working and releasable state. </p>
+
+<p>The rules about develop:</p>
+
+<ul>
+<li>No force pushing</li>
+<li>Direct commits only for really small one-commit fixes</li>
+<li>Accepts only merges from:
+
+<ul>
+<li>Feature branches</li>
+<li>Integration branches</li>
+<li>Master</li>
+</ul></li>
+<li>Merges are always non-fast-forward</li>
+</ul>
+
+<h2>Feature branches</h2>
+
+<p>Feature branches are the most common type of branch you will create and use. Every (non-urgent)bugfix or new feature will be built in a feature branch.</p>
+
+<p>The rules about feature branches:</p>
+
+<ul>
+<li>Name should always start with &quot;feature-&quot; or &quot;bug-&quot;</li>
+<li>A feature branch must have a clean history</li>
+<li>A feature branch must be reviewed before it&#39;s merged</li>
+<li>All tests and builds must pass before it&#39;s merged</li>
+<li>Must be rebased on target branch (develop / integration) before it&#39;s merged</li>
+<li>Only 1 or 2 people should be working on a feature</li>
+<li>Branches off from:
+
+<ul>
+<li>Develop</li>
+<li>Integration branch</li>
+</ul></li>
+<li>Can only be merged into:
+
+<ul>
+<li>Develop</li>
+<li>Integration branch</li>
+</ul></li>
+</ul>
+
+<h2>Integration branches</h2>
+
+<p>Integration branches are just a separate develop branch for big features. They are useful when you&#39;re developing a big new feature that consist of many smaller features. Integration branches should be handles as if they were develop.</p>
+
+<p>The rules about integration branches:</p>
+
+<ul>
+<li>Be cautious about force pushing</li>
+<li>Direct commits only for really small one-commit fixes</li>
+<li>Must be rebased on develop before it&#39;s merged</li>
+<li>Branches off from:
+
+<ul>
+<li>Develop</li>
+</ul></li>
+<li>Accepts only merges from:
+
+<ul>
+<li>Feature branches</li>
+</ul></li>
+<li>Can only be merged into:
+
+<ul>
+<li>Develop</li>
+</ul></li>
+<li>Merges are always non-fast-forward</li>
+</ul>
+
+<h2>Release branches</h2>
+
+<p>Release branches are created when a certain point of develop should be feature-frozen and be readied for release. In a release branch you&#39;ll typically update changelogs and do minor fixes. A release branch is also a typical candidate to release to a test-environment for your (internal)client to test.</p>
+
+<p>The rules about release branches:</p>
+
+<ul>
+<li>They&#39;re optional but recommended</li>
+<li>May not contain new features after branching off</li>
+<li>Branches off from: 
+
+<ul>
+<li>Develop</li>
+</ul></li>
+<li>Can only be merged into:
+
+<ul>
+<li>Master</li>
+</ul></li>
+<li>Merges are always non-fast-forward</li>
+</ul>
+
+<h2>Hotfix branches</h2>
+
+<p>Hotfix branches are created when there is an urgent issue in production. </p>
+
+<p>The rules about hotfix branches:</p>
+
+<ul>
+<li>Same rules as release branches</li>
+<li>Must have a clean history before merging</li>
+<li>Branches off from:
+
+<ul>
+<li>Master</li>
+</ul></li>
+<li>Can only be merged into:
+
+<ul>
+<li>Master</li>
+</ul></li>
+</ul>
+
+    </div>
+  </body>
+</html>

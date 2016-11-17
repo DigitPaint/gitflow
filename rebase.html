@@ -1,0 +1,356 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Go with the GitFlow</title>
+    <link rel="stylesheet" type="text/css" href="stylesheets/site.css" />
+    <script src="https://unpkg.com/gitgraph.js@1.4.0/build/gitgraph.min.js"></script>
+  </head>
+  <body>
+    <div class="markdown-body">
+      <h1>Rebasing (a.k.a. fixing the history)</h1>
+
+<p>Rebasing is the action of moving a line of comits to a different parent. GIT does this by taking your commits and applying them on top of the specified commit. This means GIT will create new commits. This is a handy feature as it allows us to change or edit these commits before they&#39;re made. It is also a dangerous feature as it means your history is going to change.</p>
+
+<p>It basically looks like this: The gray branch is rebased on top of the blue one.</p>
+
+<p><canvas id="gg-rebase"></canvas></p>
+
+<script>
+(function(){
+  var template = new GitGraph.Template({
+    colors: [ "#bbb", "#008fb5", "#000"  ],
+    branch: {
+      lineWidth: 10,
+      spacingX: 50,
+    },
+    commit: {
+      spacingY: -80,
+      dot: {
+        size: 14
+      },
+      message: {
+        displayAuthor: false,
+        displayBranch: false,
+        displayHash: false,
+        font: "normal 14pt Arial"
+      },
+      tooltipHTMLFormatter: function ( commit ) {
+        return "";
+      }
+    }
+  })
+
+  var graph = new GitGraph({
+    "template" : template,
+    "elementId" : "gg-rebase",
+    "orientation" : "horizontal"
+  });
+
+
+
+  var develop = graph.branch({name: "develop", column: 1});
+  develop.commit()
+
+  var feature = develop.branch({name: "feature", column: 0});
+  feature.commit().commit();
+
+  develop.commit().commit();
+
+  feature = develop.branch({name: "feature", column: 2});
+  feature.commit().commit();
+
+
+})();
+</script>
+
+<h2>Keep your features up to date with develop</h2>
+
+<p>There are two reasons to rebase your feature branch on develop:</p>
+
+<ol>
+<li>you want to have a certain feature or bugfix in your feature branch as well.</li>
+<li>you want to merge your feature but merging with develop will result in a mergeconflict.</li>
+</ol>
+
+<p>As 2. should never happen (it is your duty as creator of a feature to make your feature mergeable) you will need to incorporate the changes from develop. You could merge of course but that does not bode well for having a clean history. So you&#39;ll have to rebase. Some things to keep in mind:</p>
+
+<ul>
+<li>You cannot rebase if you have uncommited changes. An easy way out is to create a WIP commit with everything you have not yet committed. Or you can <code>git stash</code> all changes and apply them later on.</li>
+<li>You will rewrite the history of your feature branch so you&#39;ll have to force push to remote <code>git push -f</code>.</li>
+<li>If you work with multiple people on the same branch make sure you notify them and make sure they have pushed all changes before rebasing as they&#39;ll have to reset the branch later on.</li>
+</ul>
+
+<pre><code>git checkout YOUR_BRANCH_NAME
+git rebase develop
+</code></pre>
+
+<p>It is of course possible that this will result in conflict.</p>
+
+<h2>Dealing with conflicts during rebase</h2>
+
+<p>As Git is applying the patches one-by-one on a different base there is the possibility of a conflicting change. There is no need to panic as this is pretty much the same as a merge conflict. Once a conflict arises Git will stop rebasing just before it would have made the commit. This means everything that can be applied is already staged in the index. The only thing you have to do is resolve the conflict stage the conflicted file in the index and do a <code>git rebase --continue</code>.</p>
+
+<p>Some steps to clarify this:</p>
+
+<ol>
+<li><code>git rebase develop</code></li>
+<li><p>There is a conflict:</p>
+
+<pre><code>First, rewinding head to replay your work on top of it...
+Applying: Add Javasripts Hello World
+Using index info to reconstruct a base tree...
+M   readme.md
+Falling back to patching base and 3-way merge...
+Auto-merging readme.md
+CONFLICT (content): Merge conflict in readme.md
+error: Failed to merge in the changes.
+Patch failed at 0001 Add Javasripts Hello World
+The copy of the patch that failed is found in: .git/rebase-apply/patch
+
+When you have resolved this problem, run &quot;git rebase --continue&quot;.
+If you prefer to skip this patch, run &quot;git rebase --skip&quot; instead.
+To check out the original branch and stop rebasing, run &quot;git rebase --abort&quot;.
+</code></pre></li>
+<li><p>Running <code>git status</code> is always a good idea to see what exactly the current state is:</p>
+
+<pre><code>rebase in progress; onto 714a9d8
+You are currently rebasing branch &#39;feature-hello-node&#39; on &#39;714a9d8&#39;.
+  (fix conflicts and then run &quot;git rebase --continue&quot;)
+  (use &quot;git rebase --skip&quot; to skip this patch)
+  (use &quot;git rebase --abort&quot; to check out the original branch)
+
+Changes to be committed:
+  (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
+
+    new file:   hello.js
+
+Unmerged paths:
+  (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
+  (use &quot;git add &lt;file&gt;...&quot; to mark resolution)
+
+    both modified:   readme.md
+</code></pre></li>
+<li>As you can see the problem resides in <code>readme.md</code>. Fixing a rebase conflict is the same as fixing a merge conflict.</li>
+<li>Once you have resolved the conflict you have to stage the changes with <code>git add readme.md</code></li>
+<li>Finally you resume the rebase by running <code>git rebase --continue</code></li>
+</ol>
+
+<p>Keep in mind that a rebase can result into multiple conflicts. </p>
+
+<h3>Skipping a patch</h3>
+
+<p>Most of the time Git is quite good at identifying that a change has already happened. Sometimes it fails. In that case you probably don&#39;t want to handle fixing conflicts by hand but just skip the patch that will be applied by running <code>git rebase --skip</code></p>
+
+<h3>Aborting a rebase</h3>
+
+<p>Rebasing can be a tricky affair and you may or may not have selected the wrong branch to rebase (it happens). Luckily you can always abort a rebase by running <code>git rebase --abort</code></p>
+
+<h2>Pushing and pulling rebased branches</h2>
+
+<p>As you have rewritten the history of a branch (all commits have been re-created with new SHA1s) you cannot just push the branch as the commits in the remote branch do not match any parents in your local branch. That&#39;s why you have to forcefully overwrite the commits on remote by running:</p>
+
+<pre><code>git push -f 
+</code></pre>
+
+<p>If you&#39;re just working on a brach on your own there is no problem. However if you work on the same branch with multiple people and they try to pull, stuff get&#39;s haywired as Git will just try to merge the two branches which will result into having the commits in your branch twice with an ugly merge commit between them.</p>
+
+<p><strong>It is very important that you make sure you have all changes in a branch before rebasing!</strong> Merging rebased branches can be quite a headache.</p>
+
+<p>So how do we pull after someone force pushed? We have two options:</p>
+
+<ol>
+<li>We&#39;re certain that we don&#39;t have any local commits that were not on remote so we can just reset our branch to what&#39;s on origin by doing:
+<code>
+git reset --hard origin/YOUR_BRANCH_NAME
+</code></li>
+<li>We have local changes and want to apply them to the branch. We&#39;ll pull and rebase the remote changes by running:
+<code>
+git pull --rebase
+</code>
+Any conflicts that arise during a rebase can be dealt with as you would with a normal rebase.</li>
+</ol>
+
+<h2>Prepare your feature branch for a PR (a.k.a Interactive rebasing)</h2>
+
+<p>As we have previously stated a rebase is just like applying all commits manually again, you can also rebase a history unto itself. In itself that may sound a bit silly but Git has a feature called interactive rebasing which allows us to change/reorder and remove commits before they&#39;re being applied anew.</p>
+
+<p>Let&#39;s consider the following history:</p>
+
+<p><canvas id="gg-rebase-i"></canvas></p>
+
+<script>
+(function(){
+  var template = new GitGraph.Template({
+    colors: [ "#008fb5", "#000"  ],
+    branch: {
+      lineWidth: 8,
+      spacingX: 50,
+    },
+    commit: {
+      spacingY: -50,
+      dot: {
+        size: 10
+      },
+      message: {
+        displayAuthor: false,
+        displayBranch: false,
+        displayHash: true,
+        font: "normal 12pt Arial"
+      }
+    }
+  })
+
+  var graph = new GitGraph({
+    "template" : template,
+    "elementId" : "gg-rebase-i",
+    "orientation" : "vertical"
+  });
+
+  var develop = graph.branch({name: "develop", column: 0});
+
+  develop.commit({ message: "Add javascript hello world", sha1: "ddd7072" });
+  develop.commit({ message: "Add html + javascript hello world", sha1: "aae5562" });
+  develop.commit({ message: "Fix node path in node.js example", sha1: "fc0f4e3" });
+  develop.commit({ message: "Update readme", sha1: "55e3cc8" });
+  develop.commit({ message: "WIP", sha1: "ed536e4" });
+
+})();
+</script>
+
+<p>We want to fix some things before we present them as a PR to our fellow developers:</p>
+
+<ul>
+<li><code>ddd7072</code> need a different commit message (as it&#39;s actually a node example)</li>
+<li><code>fc0f4e2</code> needs to be combined with <code>ddd7072</code> (no fix commits in our feature branch)</li>
+<li><code>55e3cc8</code> needs to be split and combined with <code>ddd7072</code> and <code>aae5562</code> (much nicer to have that combined with the actual change)</li>
+<li><code>ed536e4</code> needs to be split into two commits (as we have a typescript and coffeescript Hello World in this commit)</li>
+</ul>
+
+<p>So we&#39;d rather have it look more like this before we merge:</p>
+
+<p><canvas id="gg-rebase-i-done"></canvas></p>
+
+<script>
+(function(){
+  var template = new GitGraph.Template({
+    colors: [ "#008fb5", "#000"  ],
+    branch: {
+      lineWidth: 8,
+      spacingX: 50,
+    },
+    commit: {
+      spacingY: -50,
+      dot: {
+        size: 10
+      },
+      message: {
+        displayAuthor: false,
+        displayBranch: false,
+        displayHash: true,
+        font: "normal 12pt Arial"
+      },
+      tooltipHTMLFormatter: function ( commit ) {
+        return commit.message;
+      }
+    }
+  })
+
+  var graph = new GitGraph({
+    "template" : template,
+    "elementId" : "gg-rebase-i-done",
+    "orientation" : "vertical"
+  });
+
+  var develop = graph.branch({name: "develop", column: 0});
+
+  develop.commit("Add Node.js Hello World");
+  develop.commit("Add HTML + javascript Hello World");
+  develop.commit("Add Typescript Hello World");
+  develop.commit("Add Coffescript Hello World");
+
+})();
+</script>
+
+<h3>Starting the rebase process</h3>
+
+<ol>
+<li>Get the SHA1 of the commit before the first commit you want to change. (Why? because we&#39;re going to rebase the current history onto that SHA1)</li>
+<li> Start the interactive rebase:
+<code>
+git rebase -i SHA1
+</code></li>
+<li><p>Git will open your editor and show you something like this:</p>
+
+<pre><code>pick ddd7072 Add JavaScript Hello World
+pick aae5562 Add HTML + JavaScript Hello World
+pick fc0f4e3 Fix node path in node.js hello world
+pick 55e3cc8 Update readme
+pick ed536e4 WIP
+
+# Rebase ebe6682..ed536e4 onto ebe6682 (5 command(s))
+#
+# Commands:
+# p, pick = use commit
+# r, reword = use commit, but edit the commit message
+# e, edit = use commit, but stop for amending
+# s, squash = use commit, but meld into previous commit
+# f, fixup = like &quot;squash&quot;, but discard this commit&#39;s log message
+# x, exec = run command (the rest of the line) using shell
+# d, drop = remove commit
+#
+# These lines can be re-ordered; they are executed from top to bottom.
+#
+# If you remove a line here THAT COMMIT WILL BE LOST.
+#
+# However, if you remove everything, the rebase will be aborted.
+#
+# Note that empty commits are commented out
+</code></pre></li>
+<li>Now we&#39;ll have to tell git what to do with each commit. Luckily Git gives us some hints in the commented part of the screen. So after considering that we&#39;ll want to do the following:
+<code>
+reword ddd7072 Add JavaScript Hello World
+fixup fc0f4e3 Fix node path in node.js hello world
+pick aae5562 Add HTML + JavaScript Hello World
+edit 55e3cc8 Update readme
+edit ed536e4 WIP
+</code></li>
+<li>Save this file and exit your editor and Git will start the rebase.</li>
+</ol>
+
+<h3>Changing commit messages</h3>
+
+<p>Just add &#39;reword&#39; before the commit and during the rebase Git will open an editor window where you can change the message. Save the message and close the editor. Git wil automatically continue with the rebase</p>
+
+<h3>Combining commits</h3>
+
+<p>You can combine commits either with &#39;squash&#39; or &#39;fixup&#39;. The difference is that &#39;squash&#39; will combine the commit messages, &#39;fixup&#39; will ignore the message of the &#39;fixup&#39; commit.</p>
+
+<p>Fixup&#39;s and squashes can result in merge conflicts. You can fix those, stage the changes and carry on with <code>git rebase --continue</code></p>
+
+<h3>Splitting commits</h3>
+
+<p>Splitting commits is done by ammending an existing commit and creating new commits. When you have specified you want to &#39;edit&#39; a commit. Git will apply the commit but then pause the rebase process. This allows you to ammend the commit and create new ones.</p>
+
+<ol>
+<li>First we&#39;re going to undo the commit so we can change the index
+<code>
+git reset --soft &quot;HEAD^&quot;
+</code></li>
+<li>Unstage the parts we want to put into separate commits (If it concerns lines this is easiest done with a GUI like SourceTree)</li>
+<li>Once we have the stage ready for the first commit we&#39;ll commit it.</li>
+<li>We create new commits as usual for the other unstaged changes</li>
+<li>Once we&#39;re done adding commits we&#39;ll have to continue rebasing:
+<code>
+git rebase --continue
+</code></li>
+</ol>
+
+<p>You might notice that sometimes you have to rebase multiple times for instance if you need to split and then fixup those splitted commits into other commits.</p>
+
+<h3>Re-ordering commits</h3>
+
+<p>Re-ordering commits can be done by moving the lines around in your editor. This again can result into a merge conflict. But by now you should know how to handle those.</p>
+
+    </div>
+  </body>
+</html>

@@ -1,0 +1,503 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+
+    <title>Go with the Gitflow!</title>
+
+    <meta name="description" content="">
+    <meta name="author" content="Flurin Egger">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link rel="stylesheet" href="vendor/revealjs/css/reveal.css">
+    <link rel="stylesheet" href="stylesheets/theme.css" id="theme">
+
+    <!-- If the query includes 'print-pdf', use the PDF print sheet -->
+    <script>
+      document.write( '<link rel="stylesheet" href="vendor/revealjs/css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="all">' );
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="vendor/revealjs/lib/js/html5shiv.js"></script>
+    <![endif]-->
+
+  </head>
+
+  <body>
+
+    <div class="reveal">
+
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+
+        <section>
+
+          <h1 class="medium">Go with the Gitflow!</h1>
+          <p class="small">A workshop in Gitflow &amp; Git best practices</p>
+
+
+          <p class="logo" style="margin-top: 3em;"><img src="images/logo-text.svg" alt="Digitpaint"></p>
+
+        </section>
+
+        <section>
+          <h1>Today</h1>
+          <ul>
+            <li>Introduction (20min)</li>
+            <li>GitFlow (30min)</li>
+            <li>Hands on with GitFlow (1hr)</li>
+            <li>Li'l break</li>
+            <li>Git mastery &amp; best practices (30min)</li>
+            <li>Hands on with advanced Git (1.5hr)</li>
+            <li>Wrap-up (15min)</li>
+          </ul>
+        </section>
+
+        <section>
+          <h1 class="medium">Hi, my name is</h1>
+          <p class="big">...</p>
+          <p class="medium">and our current worfklow sucks because</p>
+          <p class="big">...</p>
+        </section>
+
+        <section>
+          <h1 class="big">GitFlow</h1>
+        </section>
+
+        <section>
+          <h1 class="medium">
+            Gitflow @ Digitpaint
+          </h1>
+          <ul class="fragment">
+            <li>Fast identification of issues</li>
+            <li>Higher quality code</li>
+            <li>Clear code ownership and responsibilities</li>
+            <li>No push'n'run and less uncontrolled conflicts</li>
+            <li>Easier coleague onboarding</li>
+          </ul>
+        </section>
+
+        <section>
+          <img class="stretch" src="images/gitflow-driessen.png" alt="Gitflow diagram" />
+          <p class="note">(c) Vincent Driessen, Creative Commons BY-SA, http://nvie.com/posts/a-successful-git-branching-model/</p>
+        </section>
+
+        <section>
+          <h1 class="medium">Branches</h1>
+          <ul>
+            <li>Develop</li>
+            <li>Master</li>
+            <li>Feature</li>
+            <li>Release</li>
+            <li>Hotfix</li>
+            <li>[Integration]</li>
+          </ul>
+        </section>
+
+        <section>
+          <h1 class="medium">Master</h1>
+          <ul>
+            <li>Is reflection of production</li>
+            <li>Only contains merge commits</li>
+            <li>Every change must be merged back to develop</li>
+          </ul>
+        </section>
+
+        <section>
+          <h1  class="medium">Develop</h1>
+          <ul>
+            <li>The future for your releases</li>
+            <li>Contains mostly merge commits (some small fixes)</li>
+            <li>Receives merges from feature/integration branches</li>
+          </ul>
+        </section>
+
+        <section>
+          <h1 class="medium">Feature branches</h1>
+          <ul>
+            <li>Where work is done</li>
+            <li>Branch from develop/integration</li>
+            <li>Merge no-ff into develop/integration</li>
+            <li>Must be cleaned and up-to-date before merge</li>
+          </ul>
+        </section>
+
+        <section>
+          <h1 class="medium">Release branches</h1>
+          <ul>
+            <li>Where releases are prepared</li>
+            <li>No new features</li>
+            <li>Branch from develop</li>
+            <li>Merge no-ff into master</li>
+            <li>Are optional</li>
+          </ul>
+        </section>
+
+        <section>
+          <h1  class="medium">Hotfix branches</h1>
+          <ul>
+            <li>Urgent fixes for production</li>
+            <li>No new features!</li>
+            <li>Branch from master</li>
+            <li>Merge no-ff into master</li>
+          </ul>
+        </section>
+
+        <section>
+          <h1 class="medium">Integration branches</h1>
+          <ul>
+            <li>Temporary copies of develop</li>
+            <li>Long running features</li>
+            <li>Branch from develop</li>
+            <li>Merge no-ff into develop</li>
+          </ul>
+        </section>
+
+        <section>
+          <h1 class="big">The Workflow</h1>
+        </section>
+
+        <section>
+          <img class="stretch" src="images/workflow-feature.svg" />
+        </section>
+
+        <section>
+          <img class="stretch" src="images/workflow-integration.svg" />
+        </section>
+
+        <section>
+          <img class="stretch" src="images/workflow-release.svg" />
+        </section>
+
+        <section>
+          <img class="stretch" src="images/workflow-hotfix.svg" />
+        </section>
+
+      <section>
+        <h1 class="big">Hands on!</h1>
+        <p class="medium">http://...</p>
+        <ul>
+          <li>Features</li>
+          <li>Releases</li>
+          <li>Hotfixes</li>
+        </ul>
+      </section>
+
+      <section data-background="/presentation/images/backgrounds/break.gif">
+        <h1 class="bigger">Break</h1>
+      </section>
+
+      <section>
+        <h1 class="big">Tending history</h1>
+        <ul class="fragment">
+          <li>It's a communication tool</li>
+          <li>Saves future you/colleagues time</li>
+          <li>See why things changed</li>
+        </ul>
+      </section>
+
+      <section>
+        <img class="stretch" src="images/history.svg" />
+      </section>
+
+      <section>
+        <h1 class="big">Commits</h1>
+        <ul class="fragment">
+          <li>Must be atomic</li>
+          <li>The message must tell us why</li>
+        </ul>
+      </section>
+
+      <section>
+        <h1 class="medium">Atomicity</h1>
+        <ul>
+          <li>Only contain related changes</li>
+          <li>Must keep the repository in a working state</li>
+        </ul>
+      </section>
+
+      <section>
+        <h1 class="medium">A bad commit</h1>
+        <ul>
+          <li>Add unittest for house.json</li>
+          <li>Fix typo in car.js<sup>*</sup></li>
+        </ul>
+        <p class="fragment note">
+          <sup>*</sup>Like walking into your house with a turd on your shoe
+        </p>
+      </section>
+
+      <section>
+        <h1 class="big">Commit messages</h1>
+        <ul>
+          <li>All lines wrap at 72 characters</li>
+          <li>First line is the subject</li>
+          <li>Followed by empty line</li>
+          <li>Followed by body (optional)</li>
+        </ul>
+      </section>
+
+      <section>
+        <h1>Bad</h1>
+        <pre><code class="code">Fixing things</code></pre>
+
+        <h1 style="margin-top: 1em">Good</h1>
+        <pre><code class="code">Validate URL passed to loader
+
+The loader now validates the first argument
+as an URL as this led to faulty data input in
+the database.
+</code></pre>
+      </section>
+
+      <section>
+        <h1 class="medium">Edge cases</h1>
+        <ul>
+          <li>Whitespace changes</li>
+          <li>Renames</li>
+        </ul>
+      </section>
+
+      <section>
+        <h1 class="big">WIP commits</h1>
+        <p><strong>!! Only on feature branches !!</strong></p>
+        <ul>
+          <li>Do whatever you like</li>
+          <li>Split up before merging</li>
+        </ul>
+      </section>
+
+      <section>
+        <h1 class="big">Pull requests</h1>
+        <ul class="fragment">
+          <li>
+            Makes QA easy
+            <ul style="margin-bottom: 0;">
+              <li>Code Review</li>
+              <li>Continous Integration</li>
+            </ul>
+          </li>
+          <li>Makes mergin and managing feature branches easier</li>
+        </ul>
+      </section>
+
+      <section>
+        <h1 class="medium">PR history</h1>
+        <ul>
+          <li>Clean up the history before creating/updating a PR</li>
+          <li>No fix commits for code that was written in this feature.</li>
+          <li>No unrelated changes (do these on develop or other feature branches)</li>
+        </ul>
+      </section>
+
+      <section>
+        <h1 class="medium">WIP PR</h1>
+        <ul>
+          <li>Prefix title with [WIP]</li>
+          <li>Never merge before it's unwipped</li>
+        </ul>
+      </section>
+
+      <section>
+        <h1 class="big">Rebasing</h1>
+      </section>
+
+      <section>
+        <p class="fragment">
+          <img style="width: 50%" class="stretch" src="images/rebase-begin.svg" />
+        </p>
+        <p class="fragment current-visible">
+          <img style="width: 50%"  class="stretch" src="images/rebase-merge.svg" />
+        </p>
+        <p class="fragment">
+          <img style="width: 75%" class="stretch" src="images/rebase-done.svg" />
+        </p>
+
+        <aside class="notes">
+        Take a chain of commits and creates new commets based on their patches on top of an arbitrary base commit.
+        </aside>
+      </section>
+
+      <section>
+      <h1 class="medium">Update features</h1>
+      <pre><code class="code">git rebase develop</code></pre>
+      </section>
+
+      <section>
+        <h1 class="medium">Dealing with conflicts</h1>
+        <ul>
+          <li>Check <code>git status</code></li>
+          <li>Fix conflict</li>
+          <li><code>git add</code> conflicted file</li>
+          <li><code>git rebase --continue</code></li>
+        </ul>
+      </section>
+
+      <section>
+        <h1 class="medium">Skip &amp; Abort</h1>
+        <pre><code class="code">git rebase --skip</code></pre>
+        <pre><code class="code">git rebase --abort</code></pre>
+      </section>
+
+      <section>
+        <h1 class="medium">Push rebased</h1>
+        <p>Always do this with care!</p>
+        <pre><code class="code">git push -f</code></pre>
+      </section>
+
+      <section>
+        <h1 class="medium">Pull rebased</h1>
+
+        <p>Just take everything from remote:</p>
+        <pre><code class="code">git reset --hard origin/BRANCHNAME</code></pre>
+
+        <p>or rebase with remote</p>
+        <pre><code class="code">git pull --rebase</code></pre>
+
+      </section>
+
+      <section>
+        <h1>Rewrite history</h1>
+        <p>... a.k.a. interactive rebasing</p>
+      </section>
+
+      <section>
+        <p class="fragment">
+          <img style="width: 50%" class="stretch" src="images/rebase-i-begin.svg" />
+        </p>
+        <p class="fragment current-visible">
+          <img style="width: 50%"  class="stretch" src="images/rebase-i-done.svg" />
+        </p>
+
+        <aside class="notes">
+          <li>Take a chain of commits and re-apply them onto their own parent commit and change them before applying</li>
+        </aside>
+      </section>
+
+      <section>
+        <pre><code class="code">git rebase -i PARENT_SHA1</code>
+      </section>
+
+      <section>
+        <h1 class="medium">Actions</h1>
+        <ul>
+          <li>Edit commit message (reword)</li>
+          <li>Edit/split commit (edit)</li>
+          <li>Combine two commits (squash / fixup)</li>
+          <li>Remove commits (just remove the line)</li>
+          <li>Reorder commits (move the lines around)</li>
+        </ul>
+      </section>
+
+      <section>
+        <h1 class="medium">Splitting commits</h1>
+        <ul>
+          <li>Undo the commit so we can change the index</li>
+          <li>Create new commits</li>
+          <li>git rebase --continue</li>
+        </ul>
+      </section>
+
+
+      <section>
+        <h1 class="big">Hands on!</h1>
+        <p class="medium">http://...</p>
+        <ul>
+          <li>Pull requests</li>
+          <li>Rebasing</li>
+        </ul>
+      </section>
+
+      <section>
+        <h1 class="bigger">Wrap-up</h1>
+      </section>
+
+      <section>
+        <h1 class="big">Giflow</h1>
+        <ul>
+          <li>Master = current release</li>
+          <li>Develop = future release</li>
+          <li>Feature = PR = where code is written</li>
+          <li>Release = code freeze, deploy to staging, merge to master</li>
+          <li>Hotfix = feature + release cominbation</li>
+          <li>Integration = long-running features</li>
+        </ul>
+      </section>
+
+      <section>
+        <h1 class="big">History</h1>
+        <ul>
+          <li>Keep it clean and readable</li>
+          <li>Non-ff merge to keep branches separated</li>
+          <li>Create atomic well messaged commits</li>
+        </ul>
+      </section>
+
+      <section>
+        <h1 class="big">Feature PR's</h1>
+        <ul>
+          <li>Use for CI, review and management</li>
+          <li>Keep them clean using interactive rebasing</li>
+        </ul>
+      </section>
+
+      <section>
+        <h1 class="big">Rebasing</h1>
+        <ul>
+          <li>Applies chain of commits on top of new parent</li>
+          <li>Allows to edit commits during the creation of these new commits</li>
+          <li>Must force push</li>
+          <li>Use with caution on shared branches</li>
+        </ul>
+      </section>
+
+        <section data-background="images/backgrounds/checkerboard.png" data-background-size="400px" data-background-repeat="repeat">
+
+          <p class="logo" style="text-align: left; line-height: 1; vertical-align: middle; margin-bottom: 2em;"><img src="images/logo-text.svg" alt="Digitpaint" style="height: 1.2em; vertical-align: middle; margin: 0;"> zegt...</p>
+
+          <img src="images/thanks.svg" alt="Thank you!" class="stretch" width="1920" />
+        </section>
+
+      </section>
+
+      </div>
+
+    </div>
+
+    <script src="vendor/revealjs/lib/js/head.min.js"></script>
+    <script src="vendor/revealjs/js/reveal.js"></script>
+
+    <script>
+
+      // Full list of configuration options available here:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        width: 1920,
+        height: 1080,
+
+        theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+        transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+        // Optional libraries used to extend on reveal.js
+        dependencies: [
+          { src: 'vendor/revealjs/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'vendor/revealjs/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'vendor/revealjs/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'vendor/revealjs/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+          { src: 'vendor/revealjs/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+        ]
+      });
+
+    </script>
+`
+  </body>
+</html>

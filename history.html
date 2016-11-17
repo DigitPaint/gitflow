@@ -1,0 +1,162 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Go with the GitFlow</title>
+    <link rel="stylesheet" type="text/css" href="stylesheets/site.css" />
+    <script src="https://unpkg.com/gitgraph.js@1.4.0/build/gitgraph.min.js"></script>
+  </head>
+  <body>
+    <div class="markdown-body">
+      <h1>History</h1>
+
+<p>There is nothing more frustrating than looking at a commit from 6 months ago  that just says &quot;Fix bug&quot; or &quot;Refactor&quot; when you were looking at the reason behind a change. A good and clean version history gives you the power to:</p>
+
+<ul>
+<li>Find where and why bugs were introduced</li>
+<li>Why certain changes happened</li>
+<li>What has been released when</li>
+<li>What feature has been built when</li>
+</ul>
+
+<h2>Example of a good history</h2>
+
+<p><canvas id="gg-history"></canvas></p>
+
+<script>
+(function(){
+  var template = new GitGraph.Template({
+    colors: [ "#979797", "#008fb5", "#ff0000", "#f1c109", "#0a0"  ],
+    branch: {
+      lineWidth: 10,
+      spacingX: 50,
+      showLabel: true
+    },
+    commit: {
+      spacingY: -80,
+      dot: {
+        size: 14
+      },
+      message: {
+        displayAuthor: false,
+        displayBranch: false,
+        displayHash: false,
+        font: "normal 14pt Arial"
+      },
+      tooltipHTMLFormatter: function ( commit ) {
+        return commit.message;
+      }
+    }
+  })
+
+  var graph = new GitGraph({
+    "template" : template,
+    "elementId" : "gg-history",
+    "orientation" : "vertical"
+  });
+
+
+  var columns = {
+    master: 0,
+    release: 1,
+    hotfix: 2,
+    develop: 3,
+    feature: 4
+  }
+
+  var developConf = {name: "develop", column: columns.develop};
+
+
+  var develop = graph.branch(developConf);
+
+  develop.commit("Init project");
+
+  var master = develop.branch({name: "master", column: columns.master});
+
+
+  var featureSetup = develop.branch({name: "feature-setup", column: columns.feature});
+  featureSetup.commit("Setup minimal config");
+  featureSetup.commit("Add Github Markdown styles");
+  featureSetup.merge(develop);
+
+  var featureBasics = develop.branch({name: "feature-gitflow-basics", column: columns.feature});
+  featureBasics.commit("Describe the different branches");
+  featureBasics.commit("Describe common scenarios");
+  featureBasics.merge(develop);
+
+  var r100 = develop.branch({name: "release-1.0.0", column: columns.release});
+  r100.commit("Prepare for release");
+  r100.merge(master, {"tag": "v1.0.0"});
+
+  master.merge(develop, {dotSize: 1, messageDisplay: false});
+
+  develop.commit("Add prepare for release step in hotfix workflow");
+
+  var featureWip = develop.branch({name: "feature-git-history", column: columns.feature});
+  featureWip.commit("WIP");
+
+  var hotfix = master.branch({name: "hotfix-spelling", column: columns.hotfix});
+  hotfix.commit("Fix spelling");
+  hotfix.commit("Prepare for release");
+  hotfix.merge(master, {"tag": "v1.0.1"});
+
+  master.merge(develop);
+
+
+
+})();
+</script>
+
+<h1>Commits</h1>
+
+<p>Two things are important when creating a commit:</p>
+
+<ol>
+<li>The changes it contains must be atomic</li>
+<li>The message must be exact and concise</li>
+</ol>
+
+<h2>Atomicity</h2>
+
+<p>All changes in a single commit should be related. The commit &quot;Explain when to tag versions&quot; should contain only that explanation, not an unrelated typo you fixed  somewhere else.</p>
+
+<p>Every commit should leave the application in a working state.</p>
+
+<h2>Good commit messages</h2>
+
+<ul>
+<li>First line is a subject and is 72 characters long</li>
+<li>Describes what the change does</li>
+<li>If you have refactored or performed an otherwise complex change, add an extended body below the subject (separated by an empty line).</li>
+</ul>
+
+<p>An example:</p>
+
+<pre><code>Refactor homepage
+
+This change makes sure all content is loaded before the images.
+</code></pre>
+
+<h2>WIP commits</h2>
+
+<p>It&#39;s not always clear up front what the atomic parts of a change are. Also you might just want to commit everything and push it to the server at the end of your workday. That&#39;s where the WIP (=Work in Progress) commit comes in.</p>
+
+<p>Some rules about WIP commits:</p>
+
+<ul>
+<li>They should never-ever appear in master, develop</li>
+<li>They must be split into proper atomic commits before merging a release branch, feature branch or hotfix branch.</li>
+</ul>
+
+<h1>Pull requests</h1>
+
+<p>All feature branches or hotfixes should be pull requests. A pull request makes it easy to run builds against the changes and review code. It also provides an easy way to merge a feature branch.</p>
+
+<h2>WIP pull requests</h2>
+
+<p>Sometimes you want a colleague to look at your code even though it&#39;s still work in progress. In that case you can prefix the subject of the pull request with <code>[WIP]</code> or <code>WIP:</code>. That signifies that the pull request is still work in progress and should not be merged.</p>
+
+<p>Once you are done with the PR, you must remove the prefix from the subject. </p>
+
+    </div>
+  </body>
+</html>

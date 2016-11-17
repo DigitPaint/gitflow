@@ -1,0 +1,76 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Go with the GitFlow</title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/site.css" />
+    <script src="https://unpkg.com/gitgraph.js@1.4.0/build/gitgraph.min.js"></script>
+  </head>
+  <body>
+    <div class="markdown-body">
+      <h1>Rebasing</h1>
+
+<p>In these excercises you&#39;ll learn how to become a true Git history master by embracing the power of the rebase!</p>
+
+<h2>Before you begin</h2>
+
+<ol>
+<li>Fork <a href="https://github.com/DigitPaint/gitflow-exercises">https://github.com/DigitPaint/gitflow-exercises</a></li>
+<li>Clone the repository into a new directory (Do not re-use the working directory from another exercise).</li>
+</ol>
+
+<h2>Getting feature branch up to date</h2>
+
+<p>In this exercise you&#39;ll ready the <code>feature-hello-go</code> to be merged.</p>
+
+<h3>Steps</h3>
+
+<ol>
+<li>Create a new pull request for the <code>feature-hello-go</code> branch</li>
+<li>Rebase on develop to get it up-to-date</li>
+<li>Merge the feature branch in develop</li>
+<li>Don&#39;t forget to remove the source branch</li>
+</ol>
+
+<h2>Fixing a typo</h2>
+
+<p>In this exercise you&#39;ll fix a typo in the existing &#39;Hello World&#39; in Rust.</p>
+
+<h3>Steps</h3>
+
+<ol>
+<li>Checkout the branch <code>feature-hello-rust</code></li>
+<li>Fix the wrongly typed &#39;Hello Worrrrld&#39; in <code>hello.rs</code> without adding an extra commit.</li>
+<li>Update the PR</li>
+</ol>
+
+<h2>Prepare larger PR for merging</h2>
+
+<p>In this exercise we&#39;ll considerately rewrite the history of our PR to have a completely clean history.</p>
+
+<p>We&#39;ll want to end up with this as history:</p>
+
+<pre><code>Add Node.js Hello World
+Add HTML + javascript Hello World
+Add Typescript Hello World
+Add Coffescript Hello World
+</code></pre>
+
+<p>To do that we&#39;ll have to:</p>
+
+<ol>
+<li>Change the commit message for the first commit</li>
+<li>Combine the &quot;Fix node path in node.js example&quot; commit with the first commit</li>
+<li>Split the &quot;WIP&quot; commit into two separate commits</li>
+</ol>
+
+<p>And finally as a bonus step:</p>
+
+<ol>
+<li>Split the &quot;Update readme&quot; commit and combine the respective readme changes with the &quot;Add Node.js Hello World&quot; and &quot;Add HTML + JavaSript Hello World&quot; (this is easiest with a second interative rebase)</li>
+</ol>
+
+<p>Good luck!</p>
+
+    </div>
+  </body>
+</html>
