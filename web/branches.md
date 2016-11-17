@@ -43,7 +43,7 @@ The rules about develop:
 
 ## Feature branches
 
-Feature branches are the most common type of branch you will create and use. Every (non-urgen)bugfix or new feature will be built in a feature branch.
+Feature branches are the most common type of branch you will create and use. Every (non-urgent)bugfix or new feature will be built in a feature branch.
 
 The rules about feature branches:
 
@@ -97,7 +97,8 @@ Hotfix branches are created when there is an urgent issue in production.
 
 The rules about hotfix branches:
 
-- Same rules as feature branches
+- Same rules as release branches
+- Must have a clean history before merging
 - Branches off from:
     + Master
 - Can only be merged into:

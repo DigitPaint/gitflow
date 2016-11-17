@@ -1,0 +1,318 @@
+/**
+ * Default theme for reveal.js.
+ *
+ * Copyright (C) 2011-2012 Hakim El Hattab, http://hakim.se
+ */
+
+
+// Default mixins and settings -----------------
+@import "../vendor/revealjs/css/theme/template/mixins";
+@import "../vendor/revealjs/css/theme/template/settings";
+// ---------------------------------------------
+
+
+
+// Include theme-specific fonts
+@font-face {
+  font-family: "ClanWeb";
+  font-weight: normal;
+  font-style: normal;
+	src: url('../fonts/clan/ClanWeb-News.eot?#iefix') format('embedded-opentype'),
+	     url('../fonts/clan/ClanWeb-News.woff') format('woff');
+}
+
+@font-face {
+  font-family: "ClanWeb";
+  font-weight: bold;
+  font-style: normal;
+	src: url('../fonts/clan/ClanWeb-Bold.eot?#iefix') format('embedded-opentype'),
+	     url('../fonts/clan/ClanWeb-Bold.woff') format('woff');
+}
+
+// Override theme settings (see ../template/settings.scss)
+/*$heading1TextShadow: 0 1px 0 #ccc, 0 2px 0 #c9c9c9, 0 3px 0 #bbb, 0 4px 0 #b9b9b9, 0 5px 0 #aaa, 0 6px 1px rgba(0,0,0,.1), 0 0 5px rgba(0,0,0,.1), 0 1px 3px rgba(0,0,0,.3), 0 3px 5px rgba(0,0,0,.2), 0 5px 10px rgba(0,0,0,.25), 0 20px 20px rgba(0,0,0,.15);*/
+
+// Settings
+$backgroundColor: #320636;
+
+$mainFont: "ClanWeb", sans-serif;
+$mainFontSize: 45px;
+
+$headingFont: "ClanWeb", sans-serif;
+$headingColor: #fff;
+$headingLineHeight: 1em;
+$headingLetterSpacing: 0.02em;
+$headingTextTransform: none;
+$headingTextShadow: 0px 0px 6px rgba(0,0,0,0.2);
+$heading1TextShadow: $headingTextShadow;
+
+$linkColor: #FF0062;
+$linkColorHover: lighten( $linkColor, 20% );
+
+@mixin bodyBackground(){
+  background: radial-gradient(circle closest-corner, #451c4b, #320636);
+}
+
+// Theme template ------------------------------
+@import "../vendor/revealjs/css/theme/template/theme";
+// ---------------------------------------------
+
+.reveal h1 { font-size: 2.2em; }
+.reveal h2 { font-size: 1.3em; }
+.reveal ul { margin-bottom: 1em;}
+
+.reveal .invert{
+  color: $backgroundColor;
+}
+
+.reveal .big,
+.reveal .bigger,
+.reveal .biggest,
+.reveal .medium{
+  font-size: 5em;
+  display: block;
+  font-weight: bold;
+  line-height: 1.2;
+}
+
+.reveal .bigger{
+  font-size: 7em;
+}
+
+.reveal .biggest{
+  font-size: 9em;
+}
+
+.reveal .medium,
+.reveal .number-small{
+  font-size: 3em;
+}
+
+
+.reveal section img {
+  background: none;
+  border: none;
+  margin: none;
+  box-shadow: none;
+}
+
+.reveal section .seamless{
+  background: none;
+  border: none;
+}
+
+.reveal blockquote{
+  font-style: normal;
+}
+
+.reveal blockquote cite{
+  display: block;
+  font-size: 0.6em;
+}
+
+.reveal blockquote cite::before{
+  content: " — ";
+}
+
+.reveal .lead{
+
+  &{
+    display: block;
+    margin-bottom: 2em;
+  }
+
+  img{
+    display: inline;
+    height: 1em;
+    margin-bottom: -0.1em;
+    margin-right: 0.2em;
+  }
+}
+
+.reveal .note{
+  font-size: 0.5em;
+}
+
+.reveal .code{
+  background: #000;
+  padding: 0.5em;
+  font-size: 2em;
+}
+
+del{
+  display: inline-block;
+  text-decoration: none;
+  position: relative;
+}
+
+del:before{
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+del:before{
+  background:
+    linear-gradient(to bottom right, transparent 0, transparent 45%, #f00 45%, #f00 55%, transparent 55% ),
+    linear-gradient(to bottom left, transparent 0, transparent 45%, #f00 45%, #f00 55%, transparent 55% );
+}
+
+// ==================
+// = Horizontal fit =
+// ==================
+
+.reveal{
+
+  .horizontal-fit{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .horizontal-fit--top{
+    align-items: flex-start;
+  }
+
+  .horizontal-fit > div{
+    flex: 1;
+  }
+
+  .horizontal-fit > div img{
+    width: 100%;
+  }
+
+  .vertical-fit{
+    display: flex;
+    height: 100%;
+    width: 100%;
+    overflow: auto;
+    flex-direction: column;
+  }
+
+  .vertical-fit .horizontal-fit{
+    flex: 1 1 1em;
+  }
+
+  .slides > section.fill{
+    height: 100%;
+  }
+}
+
+// ==========
+// = Versus =
+// ==========
+
+.reveal .versus{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 1em;
+}
+
+.reveal .item{
+  flex: 1;
+}
+
+
+.reveal .biglist{
+  &{
+    list-style: none;
+    margin: 0;
+  }
+
+  li{
+    margin-left: 0em;
+    position: relative;
+    margin-bottom: 0.3em;
+  }
+
+  li,
+  li:before{
+    padding: 0.5em;
+  }
+
+  li{
+    background: #36143E;
+  }
+}
+
+//  =========
+//  = Logos =
+//  =========
+
+.reveal {
+  .logos {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    justify-content: space-between;
+    padding: 0;
+    margin: 0;
+  }
+
+  .logos > li {
+    list-style: none;
+    margin: 0;
+    margin: 0.5em;
+    display: flex;
+    align-items: center;
+    max-height: 120px;
+    max-width: 33%;
+    position: relative;
+    background: #fff;
+    padding: 1em;
+  }
+
+  .logos > li img{
+    max-height: 120px;
+    width: auto;
+  }
+
+  .logos .logo--opaque{
+
+
+  }
+}
+
+
+
+// ===
+// = Print stuff
+// ===
+
+.reveal .print-only{
+  display: none;
+}
+
+.print-pdf{
+  background: #320636;
+  background-color: #320636;
+}
+
+.print-pdf .reveal{
+
+  .print-force{
+    padding: 10px;
+    margin: 0;
+  }
+
+  .stretch {
+    max-width: 1920px;
+    max-height: 1080px;
+  }
+
+  .print-only{
+    display: block;
+  }
+
+  img.print-only{
+    display: inline;
+  }
+
+  .presentation-only{
+    display: none !important;
+  }
+}
