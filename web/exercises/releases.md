@@ -18,7 +18,7 @@ We're just about ready to release our mighty new additions to our 'Hello World' 
 ### Steps
 
 1. Create a new release branch
-3. Prepare for release 1.2.0
+3. Prepare for release 1.2.0 by updating the `changelog.md`.
 4. Merge into master, make sure it's non-fast-forward
 5. Tag it!
 6. Make sure to get the changes in develop as well

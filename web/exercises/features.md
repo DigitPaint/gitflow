@@ -7,13 +7,13 @@ layout: "default"
 
 In these excercises you'll learn how to create and merge features.
 
-## Before you begin
-1. Fork https://github.com/DigitPaint/gitflow-exercises
-2. Clone the repository into a new directory (Do not re-use the working directory from another exercise).
-
 ## Adding a feature
 
 In this exercise you'll add a feature branch for 'Hello World' in PHP.
+
+### Before you begin
+1. Fork https://github.com/DigitPaint/gitflow-exercises
+2. Clone the repository into a new directory (Do not re-use the working directory from another exercise).
 
 ### Steps
 
@@ -22,11 +22,15 @@ In this exercise you'll add a feature branch for 'Hello World' in PHP.
 3. Update the readme
 4. Commit as you would
 5. Merge the feature branch in `develop`
-6. Don't forget to remove the source branch
+6. Don't forget to remove the feature branch
 
 ## Finish a feature
 
 In this exercise you'll merge an existing feature for 'Hello World' in Bash.
+
+### Before you begin
+1. Fork https://github.com/DigitPaint/gitflow-exercises
+2. Clone the repository into a new directory (Do not re-use the working directory from another exercise).
 
 ### Steps
 
