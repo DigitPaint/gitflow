@@ -28,6 +28,7 @@ In this exercise you'll fix a typo in the existing 'Hello World' in Rust.
 
 ### Steps
 
+1. Create a PR for the `feature-hello-rust` branch
 1. Checkout the branch `feature-hello-rust`
 1. Fix the wrongly typed 'Hello Worrrrld' in `hello.rs` without adding an extra commit.
 2. Update the PR
@@ -49,11 +50,11 @@ To do that we'll have to:
 
 1. Change the commit message for the first commit
 2. Combine the "Fix node path in node.js example" commit with the first commit
-3. Split the "WIP" commit into two separate commits
+3. Split the "WIP" commit into two separate commits ("Add Typescript Hello World" and "Add Coffescript Hello World")
 
 And finally as a bonus step:
 
-3. Split the "Update readme" commit and combine the respective readme changes with the "Add Node.js Hello World" and "Add HTML + JavaSript Hello World" (this is easiest with a second interative rebase)
+3. Split the "Update readme" commit and combine the respective readme changes with the "Add Node.js Hello World" and "Add HTML + JavaSript Hello World" (this is easiest with a second interactive rebase)
 
 Good luck!
 

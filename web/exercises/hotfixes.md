@@ -21,7 +21,7 @@ Fixing this cannot wait until the next release. We must create a hotfix!
 
 1. Create a new hotfix branch from the `master` branch
 2. Fix & commit the error in hello-css.html
-3. Prepare for release 1.1.1
+3. Prepare for release 1.1.1 by updating the `changelog.md`.
 4. Merge the hotfix branch into master, make sure it's non-fast-forward
 5. Tag it!
 6. Make sure to get the changes in develop as well
